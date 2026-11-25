@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The three a.m. page — Ballast investigation log</title>
+  <meta name="description" content="A fictional night on call: a quiet deploy, a pool set to 4 and fourteen minutes of slow checkouts, told in order.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The three a.m. page — Ballast investigation log">
+  <meta property="og:description" content="A fictional night on call: a quiet deploy, a pool set to 4 and fourteen minutes of slow checkouts, told in order.">
+  <meta property="og:image" content="https://ballast.wolfbc.art/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://ballast.wolfbc.art/log/the-three-am-page/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f2f3ef">
+  <link rel="canonical" href="https://ballast.wolfbc.art/log/the-three-am-page/">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Petrona:ital,wght@0,400;1,400&amp;display=swap">
+  <link rel="stylesheet" href="../../css/site.css">
+  <script src="../../js/site.js" defer></script>
+</head>
+<body data-base="../../">
+<svg class="sr-only" aria-hidden="true" focusable="false"><filter id="duo" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".180 .606 .061 0 .039  .146 .491 .050 0 .082  .092 .309 .031 0 .125  0 0 0 1 0"/></filter></svg>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header"><div class="site-header__in">
+  <a class="brand pill" href="../../" aria-label="Ballast, home"><svg class="brand__mark" viewBox="0 0 25 22" fill="none" aria-hidden="true" focusable="false"><path d="M1 5.2c2.6-2.6 5.4-2.6 8 0s5.4 2.6 8 0 5.4-2.6 7 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M2.5 10h20l-2.6 7.2H5.1z" fill="currentColor"/><path d="M11.4 17h2.2v4.2h-2.2z" fill="currentColor"/></svg><span class="brand__word" aria-hidden="true">ballast</span></a>
+  <div class="nav-pill pill"><nav class="nav" aria-label="Main">
+    <a href="../../log/" aria-current="page">Log</a>
+    <a href="../../careers/">Careers</a>
+    <span class="nav__sep" aria-hidden="true"></span>
+    <a class="btn" href="../../demo/">Book a demo</a>
+  </nav></div>
+  <button class="menu-btn pill" type="button" aria-expanded="false" aria-controls="menu-panel" aria-label="Open menu">
+    <span class="i-open"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="i-close"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+  </button>
+  <nav class="menu-panel pill" id="menu-panel" aria-label="Menu">
+    <a href="../../log/" aria-current="page">Log</a>
+    <a href="../../careers/">Careers</a>
+    <a class="btn" href="../../demo/">Book a demo</a>
+  </nav>
+</div></header>
+<main id="main">
+  <article class="article art-grid">
+    <header class="art-head">
+      <div class="label">Incidents · 12 Nov 2026</div>
+      <h1 class="h2" data-reveal>The three a.m. page</h1>
+      <p class="dek">A quiet deploy, a pool set to 4 and fourteen minutes of slow checkouts. This is a story. The company, the people and the numbers are invented.</p>
+    </header>
+    <img class="art-img" src="../../assets/log/l-01.webp" width="1200" height="670" fetchpriority="high" alt="A pager glowing on a bedside table at night, beside a brass lamp and a glass of water.">
+    <aside class="art-side">
+      <span class="author"><i aria-hidden="true">MQ</i>Mara Quist, Reliability</span><span class="rchip">5 min read</span>
+      <nav class="toc" aria-label="In this entry"><a href="#t-0307">03:07, a quiet deploy</a><a href="#t-0312">03:12, the page</a><a href="#t-0314">03:14, what it checked</a><a href="#t-0319">03:19, the fix</a><a href="#t-0321">03:21, approved</a><a href="#t-morning">The morning after</a></nav>
+    </aside>
+    <div class="prose">
+      <p class="fiction">Fiction. Nothing here happened.</p>
+      <div class="h2wrap"><h2 id="t-0307">03:07, a quiet deploy</h2><a class="anchor" href="#t-0307" aria-label="Link to 03:07, a quiet deploy">#</a></div><p>At Orrisdale Rail, nobody notices a deploy that goes well. At 03:07 on a Tuesday, a scheduled release of ledger-worker went out. The pipeline was green. The release notes mentioned a cleanup of old config. Nobody was watching, because nobody needed to.</p><p>One line of that cleanup was a typo. The database pool for ledger-worker went from 40 connections to 4.</p><p>For about five minutes, nothing looked wrong. Four connections is enough for a quiet night. Then the overnight settlement batch started, requests began to queue, and the queue began to push back on everything that talked to it.</p><div class="h2wrap"><h2 id="t-0312">03:12, the page</h2><a class="anchor" href="#t-0312" aria-label="Link to 03:12, the page">#</a></div><p>The alert came from checkout-api, which hadn’t changed in six days. The 99th percentile latency had passed 2.4 seconds and stayed there. Fourteen alerts fired together and were grouped into one incident, INC-2291, severity 2, because checkout availability was burning its error budget.</p><p>Dana, the engineer on call, got the page on her phone. She had been asleep for three hours. She sat up, found her glasses, and opened the incident before she had found her laptop.</p><p>Ballast had opened it first.</p><div class="h2wrap"><h2 id="t-0314">03:14, what it checked</h2><a class="anchor" href="#t-0314" aria-label="Link to 03:14, what it checked">#</a></div><p>The incident page already had a list. At the top was the error rate on checkout-api, up from 0.2% to 6.8% at 03:09. Under it, a deploy of ledger-worker at 03:07. Under that, 1,284 log lines reading “connection timeout after 30000 ms”, and a payments-events queue 40 times deeper than normal.</p><p>One item was crossed out: <em>checkout-api unchanged for six days, ruled out.</em> Dana noticed that line first. It saved her the usual twenty minutes of looking in the wrong place.</p><p>The causal chain sat below the list in four small boxes. Deploy, pool from 40 to 4, retries, slow checkout. Each box linked to the line or graph it came from. Dana clicked the second one and saw the config diff from the release.</p><p>She said the cause out loud to the empty room, to check it. It held.</p><div class="h2wrap"><h2 id="t-0319">03:19, the fix</h2><a class="anchor" href="#t-0319" aria-label="Link to 03:19, the fix">#</a></div><p>Ballast proposed one change. Set max_connections back to 40 in a single file, and keep the rollback to v411 ready. It listed the blast radius: ledger-worker, three replicas, no schema change, no other service touched.</p><p>It did not ship the change. It ran it first. The fix went to staging with ten minutes of replayed checkout traffic. The 99th percentile latency dropped from 2.6 seconds to 0.9. Error rate fell to 0.1%. Twelve of twelve checks passed.</p><p>Dana read the diff twice. It was one line. She had expected it to be bigger, and that made her slow down, not speed up. She checked the rollback target, then checked it again.</p><div class="h2wrap"><h2 id="t-0321">03:21, approved</h2><a class="anchor" href="#t-0321" aria-label="Link to 03:21, approved">#</a></div><p>She approved the fix at 03:21. The rollout reached the three replicas in under two minutes, and the queue started to drain. Checkout latency was back inside its objective at 03:26. In total the SLO had been broken for fourteen minutes.</p><p>Dana did not go back to sleep. She watched the graphs for a while, which is what everyone does.</p><div class="h2wrap"><h2 id="t-morning">The morning after</h2><a class="anchor" href="#t-morning" aria-label="Link to The morning after">#</a></div><p>When she opened her laptop at eight, the postmortem draft was waiting. It had a timeline built from what Ballast had actually read and done, a short cause statement, and three action items. The first was to add a pool-size check to deploy review. Each item had one owner.</p><p>She corrected one sentence, moved one action item to a teammate, and added a note about the settlement batch. Then she wrote the line that mattered most to her: <em>the deploy pipeline accepted a 90% drop in pool size without comment.</em> The fix was a one-line change to a file. The lesson was that a green pipeline can still ship a bad number.</p><p>That afternoon the team added the check. A few weeks later it caught a different typo, in a different service, before the release went out.</p>
+      <p class="closing">Ballast is fictional, and so is this night. The failure is real enough: a small change, a green pipeline, and a quiet queue that isn’t quiet for long.</p>
+      <nav class="art-nav" aria-label="Log"><a class="tlink" href="../../log/">← Back to the log</a></nav>
+    </div>
+  </article>
+  <section class="section related dash-top" aria-labelledby="rel-h">
+    <div class="wrap">
+      <h2 class="h2" id="rel-h">More from the log</h2>
+      <div class="cards3"><article class="pcard"><img class="pcard__img" src="../../assets/log/l-02.webp" srcset="../../assets/log/l-02-600.webp 600w, ../../assets/log/l-02.webp 1200w" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 349px" width="1200" height="670" loading="lazy" alt="A brass compass resting on a navy nautical chart, with coiled rope and an anchor on the wooden table behind it.">
+        <p class="pcard__meta"><span>Method</span><span>4 Nov 2026</span><span>4 min read</span></p>
+        <h3 class="pcard__t">What a blast radius is, and how to write one down</h3>
+        <p class="pcard__dek">Before any fix ships, name what it can touch. A short format that fits in a pull request.</p>
+        <div class="pcard__foot"><span class="soon">Coming soon</span><span class="rchip">4 min</span></div></article><article class="pcard"><img class="pcard__img" src="../../assets/log/l-03.webp" srcset="../../assets/log/l-03-600.webp 600w, ../../assets/log/l-03.webp 1200w" sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 349px" width="1200" height="670" loading="lazy" alt="A lighthouse sweeping its beam over a stormy sea at night, waves breaking on dark rocks.">
+        <p class="pcard__meta"><span>Method</span><span>27 Oct 2026</span><span>6 min read</span></p>
+        <h3 class="pcard__t">Rollback first, root cause second</h3>
+        <p class="pcard__dek">When customers are hurting, the best fix is often the one you already have. How to decide, and when not to.</p>
+        <div class="pcard__foot"><span class="soon">Coming soon</span><span class="rchip">6 min</span></div></article><article class="pcard"><div class="pcard__img cover cover--a" aria-hidden="true"></div>
+        <p class="pcard__meta"><span>Method</span><span>19 Oct 2026</span><span>5 min read</span></p>
+        <h3 class="pcard__t">Start the postmortem before the incident ends</h3>
+        <p class="pcard__dek">The timeline is clearest while it is happening. Why we write it live and edit it later.</p>
+        <div class="pcard__foot"><span class="soon">Coming soon</span><span class="rchip">5 min</span></div></article></div>
+      <div class="art-cta"><p class="h2s">Want to see an incident like this run on your stack?</p><a class="btn" href="../../demo/">Book a demo</a></div>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="fcol">
+    <p class="fcol__t" id="f-company">Company</p>
+    <ul aria-labelledby="f-company">
+      <li><a href="../../careers/">Careers</a></li>
+      <li><a href="../../log/">Investigation log</a></li>
+      <li><a href="../../demo/">Book a demo</a></li>
+    </ul>
+  </div>
+  <div class="fcol">
+    <p class="fcol__t" id="f-product">Product</p>
+    <ul aria-labelledby="f-product">
+      <li><a href="../../#how-it-works">How it works</a></li>
+      <li><a href="../../#agents">Agents</a></li>
+      <li><a href="../../#ways-to-work">Ways to work</a></li>
+    </ul>
+  </div>
+  <div class="fcol fcol--plain">
+    <p class="fcol__t" id="f-security">Security</p>
+    <ul aria-labelledby="f-security">
+      <li>SOC 2 Type II</li>
+      <li>GDPR</li>
+      <li>Single sign-on</li>
+      <li>Read-only by default</li>
+    </ul>
+  </div>
+  <div class="fcol fcol--wide">
+    <div class="badges">
+      <span class="badge badge--fill"><i aria-hidden="true"></i>All systems normal</span>
+      <span class="badge badge--text">Made for on-call</span>
+    </div>
+    <div class="fbottom">
+      <div>
+        <p class="tag">Keeps the ship upright.</p>
+        <p><a href="https://wolfbc.art">Concept project by Wolfgang Betancourth — wolfbc.art</a></p>
+        <p class="legal">Ballast is a fictional product. The company, its customers, quotes, people and figures on this site are invented for a design portfolio.</p>
+      </div>
+      <svg class="fmark" viewBox="0 0 60 48" fill="none" aria-hidden="true" focusable="false"><path d="M2 11c6-6 12-6 18 0s12 6 18 0 12-6 20 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M5 22h50l-6.5 15h-37z" fill="currentColor"/><path d="M27.5 37h5v10h-5z" fill="currentColor"/></svg>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
